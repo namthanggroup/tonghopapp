@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TỔNG HỢP APP - TẬP ĐOÀN NAM THẮNG</title>
+  <style>
+    :root {
+      --main-green: #b6e44d;
+      --dark-green: #4e944f;
+      --text-dark: #2c3e50;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f7fdf2;
+      color: var(--text-dark);
+    }
+
+    header {
+      background-color: var(--main-green);
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .tabs button {
+      background-color: white;
+      border: 2px solid var(--main-green);
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .tabs button.active, .tabs button:hover {
+      background-color: var(--main-green);
+    }
+
+    .content {
+      display: none;
+      padding: 10px 20px;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin: 20px 0 10px;
+      color: var(--dark-green);
+      border-bottom: 1px dashed var(--main-green);
+      padding-bottom: 5px;
+    }
+
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .link-item {
+      background-color: white;
+      border: 1px solid var(--main-green);
+      padding: 10px 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--text-dark);
+      transition: background 0.2s;
+    }
+
+    .link-item:hover {
+      background-color: var(--main-green);
+      color: black;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TỔNG HỢP APP - TẬP ĐOÀN NAM THẮNG</h1>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-button active" data-tab="by-province">Theo Tỉnh</button>
+    <button class="tab-button" data-tab="by-app">Theo Phân Loại App</button>
+  </div>
+
+  <div class="content active" id="by-province"></div>
+  <div class="content" id="by-app"></div>
+
+  <footer>
+    © 2025 Tập Đoàn Nam Thắng - P.CNTT
+  </footer>
+
+  <script>
+    // Kiểm tra mật khẩu lưu trữ
+  const saved = localStorage.getItem("savedPassword");
+  const CORRECT_PASSWORD = "namthang";
+
+  if (saved !== CORRECT_PASSWORD) {
+    localStorage.removeItem("savedPassword");
+    window.location.href = "login.html";
+  }
+    const linkMap = {
+	      "0.Tập đoàn": {
+        "Tổng hợp Biên Bản": "bienban.taxinamthang.vn",
+        "Nhân sự": "https://www.appsheet.com/start/882d3d4a-5d2a-4938-9013-b25811a3f852",
+		"Doanh thu Taxi Tập đoàn": "https://docs.google.com/spreadsheets/d/1CMOh7HfULhJ7DuHoJkEQNS0GzDWzQ4Pizcb1Vfi9_-8/edit?gid=0#gid=0",
+		"Văn bản điện tử": "https://vpdt.vnptioffice.vn"
+      },
+	  	      "1.Phú Quốc": {
+		"Quản lý phương tiện": "https://www.appsheet.com/start/a0e13cbd-b4b2-4c96-8562-413501e21e9a",
+        "Tổng hợp Biên Bản": "https://www.appsheet.com/start/05e7613a-37d5-4f78-bbeb-6671fefb9e4c",
+		"Thẻ trả sau": "https://www.appsheet.com/start/747264f0-826f-40f9-9dda-c0030da8fdfd",
+		"Tính lương TX 2025": "https://www.appsheet.com/start/17b717fd-3a98-4f24-b457-ea2e5502f0d0",
+		"Tra cứu hợp đồng - TX": "tracuupq.taxinamthang.vn"
+      },
+      "2.Rạch Giá": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/bd5cab6f-d3b0-4861-ad4c-f5a77465108a",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/2f1b6c37-f669-4a54-8d49-11bc29759053",
+        "Trái phiếu": "https://www.appsheet.com/start/bac58e06-67a6-441e-8436-eb8f8e1c6e6d",
+		"Tra cứu hợp đồng - TX": "tracuurg.taxinamthang.vn"
+      },
+      "3.Cà Mau": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/31e86869-6bf5-4284-a1b8-2084dbe0ef65",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/b4019b63-bf6a-44e7-94ad-7e18326d36e9",
+		"Tra cứu hợp đồng - TX": "tracuucm.taxinamthang.vn"
+      },
+      "4.An Giang": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/ffe27a1d-9636-40aa-a91a-c3400c87de11",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/6d36ccf9-11d2-46a6-8cf1-98dfdd9c5e87",
+		"Tra cứu hợp đồng - TX": "tracuuag.taxinamthang.vn"
+      },
+	        "5.Hậu Giang": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/5fc80e05-ee71-4a36-aced-3a21326e2c75",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/45a7cb29-092e-475c-a162-79fe1e70fd04",
+		"Tra cứu hợp đồng - TX": "hg.taxinamthang.vn"
+      },
+	        "6.Bạc Liêu": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/0478400b-0363-421d-9352-c75882f33dbe",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/92f2bf3f-f0cb-4f87-80e6-4fd806b9b1fb","Tra cứu hợp đồng - TX": "tracuubl.taxinamthang.vn"
+      },
+	        "7.Sóc Trăng":{
+        "Quản lý phương tiện": "https://www.appsheet.com/start/ad9af8b5-7914-478b-9375-a6df859b4666",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/d2eac05e-b621-4729-86cb-538115eb854f",
+		"Tra cứu hợp đồng - TX": "tracuust.taxinamthang.vn"
+      },
+	        "8.Vĩnh Long": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/a1aa6787-1430-4d9b-92e5-190ae7b4d141",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/79766506-17a6-4da1-95b7-86c2b6757ea5",
+		"Tra cứu hợp đồng - TX": "tracuuvl.taxinamthang.vn"
+      },
+	        "9.Côn Đảo": {
+        "Quản lý phương tiện": "https://www.appsheet.com/start/ad9ba27e-3438-40c5-bfb5-7378798e67e6",
+        "Kinh Doanh - Điểm tiếp thị": "https://www.appsheet.com/start/b114fbcb-f4c2-48a1-8e35-96bd8fb26947",
+      }
+      // Thêm các tỉnh và app tương ứng tiếp theo...
+    };
+
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const contents = document.querySelectorAll(".content");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    function renderByProvince() {
+      const container = document.getElementById("by-province");
+      for (const province in linkMap) {
+        const section = document.createElement("div");
+        section.innerHTML = `<div class="section-title">${province}</div>`;
+        const list = document.createElement("div");
+        list.className = "link-list";
+
+        const apps = linkMap[province];
+        for (const app in apps) {
+          const link = document.createElement("a");
+          link.className = "link-item";
+          link.href = apps[app];
+          link.target = "_blank";
+          link.textContent = app;
+          list.appendChild(link);
+        }
+
+        section.appendChild(list);
+        container.appendChild(section);
+      }
+    }
+
+    function renderByApp() {
+      const container = document.getElementById("by-app");
+      const appSet = new Set();
+      for (const province in linkMap) {
+        Object.keys(linkMap[province]).forEach(app => appSet.add(app));
+      }
+
+      const apps = Array.from(appSet);
+      apps.forEach(app => {
+        const section = document.createElement("div");
+        section.innerHTML = `<div class="section-title">${app}</div>`;
+        const list = document.createElement("div");
+        list.className = "link-list";
+
+        for (const province in linkMap) {
+          if (linkMap[province][app]) {
+            const link = document.createElement("a");
+            link.className = "link-item";
+            link.href = linkMap[province][app];
+            link.target = "_blank";
+            link.textContent = province;
+            list.appendChild(link);
+          }
+        }
+
+        section.appendChild(list);
+        container.appendChild(section);
+      });
+    }
+
+    renderByProvince();
+    renderByApp();
+  </script>
+</body>
+</html>
