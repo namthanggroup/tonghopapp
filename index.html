@@ -64,8 +64,6 @@
       if (saved === CORRECT_PASSWORD) {
         window.location.href = "index.html";
       } else if (saved && saved !== CORRECT_PASSWORD) {
-        alert("Mật khẩu đã thay đổi. Vui lòng đăng nhập lại.");
-        localStorage.removeItem("savedPassword");
         window.location.href = "index.html";
       }
     };
