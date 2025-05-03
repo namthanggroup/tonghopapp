@@ -54,35 +54,35 @@
     <button onclick="login()">Đăng nhập</button>
   </div>
 
-  <script>
+ <script>
     const CORRECT_USERNAME = "admin";
     const CORRECT_PASSWORD = "namthang";
 
-    // Kiểm tra nếu có mật khẩu lưu trước đó
+    // Khi trang web được tải, kiểm tra nếu mật khẩu đã lưu trước đó và tự động chuyển sang trang chính
     window.onload = () => {
       const saved = localStorage.getItem("savedPassword");
       if (saved === CORRECT_PASSWORD) {
-        window.location.href = "index.html";
-      } else if (saved && saved !== CORRECT_PASSWORD) {
-        window.location.href = "index.html";
+        window.location.href = "main.html"; // Nếu mật khẩu đã được lưu và đúng, chuyển sang trang chính
       }
     };
 
+    // Hàm đăng nhập khi người dùng bấm nút "Đăng nhập"
     function login() {
       const user = document.getElementById("username").value.trim();
       const pass = document.getElementById("password").value.trim();
       const remember = document.getElementById("remember").checked;
       const error = document.getElementById("errorMsg");
 
+      // Kiểm tra tên đăng nhập và mật khẩu
       if (user === CORRECT_USERNAME && pass === CORRECT_PASSWORD) {
         if (remember) {
-          localStorage.setItem("savedPassword", pass);
+          localStorage.setItem("savedPassword", pass); // Lưu mật khẩu nếu người dùng chọn "Lưu mật khẩu"
         }
-        window.location.href = "main.html";
+        window.location.href = "main.html"; // Nếu đăng nhập thành công, chuyển sang trang chính
       } else {
-        error.textContent = "Tên đăng nhập hoặc mật khẩu sai!";
+        error.textContent = "Tên đăng nhập hoặc mật khẩu sai!"; // Nếu sai, hiển thị thông báo lỗi
       }
     }
-  </script>
+</script>
 </body>
 </html>
